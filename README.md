@@ -66,6 +66,8 @@ Utilise docker pour lancer le serveur, le fichier `docker-compose.yml` est déj�
 docker compose up
 ```
 
+> docker expose le port 33200 par defaut, mais tu peux le changer dans le fichier `docker-compose.yml`.
+
 ---
 
 ## 📡 Utilisation de l’API
@@ -120,7 +122,7 @@ HOSTNAME /assets/pdp/550e8400-e29b-41d4-a716-446655440000.svg
 ## 🧪 Exemple d’appel avec curl
 
 ```bash
-curl http://localhost:3000/new/550e8400-e29b-41d4-a716-446655440000/mysecretkey
+curl http://localhost:33200/new/550e8400-e29b-41d4-a716-446655440000/mysecretkey
 ```
 
 ---
