@@ -1,0 +1,38 @@
+name: Build and Push Docker Image
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version of the image'
+        required: true
+        default: 'latest'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to GitHub Docker Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build the Docker image
+      run: |
+        docker build -t ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):latest \
+                 -t ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):${{ inputs.version }} .
+
+    - name: Push the Docker image to GitHub Container Registry
+      run: |
+        docker push ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):latest
+        docker push ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]'):${{ inputs.version }}

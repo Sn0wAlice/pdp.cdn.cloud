@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  dicebear-cdn:
+    image: ghcr.io/sn0walice/pdp.cdn.cloud:latest
+    container_name: seqlense-pdp
+    ports:
+      - "33200:3000"
+    volumes:
+      - ./pdp:/app/public/pdp
+      - ./config.json:/app/config.json
+    restart: unless-stopped
